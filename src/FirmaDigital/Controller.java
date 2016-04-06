@@ -13,9 +13,9 @@ import java.security.PrivateKey;
  */
 public class Controller {
 
-    public static final String PRIVATE_KEY_FILE = "private.key";
-    public static final String FITXER_PLA = "Sparring.pdf";
-    public static final String FITXER_SIGNAT = "firmat.pdf";
+    public static final String PRIVATE_KEY_FILE = "private.key";    // private.key
+    public static final String FITXER_PLA = "Sparring.pdf";         // PDF normal
+    public static final String FITXER_SIGNAT = "firmat.pdf";        // PDF firmado
 
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException, ClassNotFoundException {
 
