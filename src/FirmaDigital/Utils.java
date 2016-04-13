@@ -5,6 +5,7 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -23,13 +24,25 @@ public class Utils {
     static KeyPairGenerator kpg;
 
     // Comprueba si las llaves existen en el directorio y devuelve un booleano que lo indica
-    public static boolean areKeysPresent(){
+    public static boolean areKeysPresent() throws IOException {
 
-        if(kpg == null){
+        /* Lo tenía así de manera original, pero si comprobamos el KPG nos ahorramos pasarle las rutas por parametro
+        File clavePrivada = new File(PRIVATE_KEY_FILE);
+        File clavePublica = new File(PUBLIC_KEY_FILE);
+
+        if (clavePrivada.exists() && clavePublica.exists()){
+            return true;
+        }
+        else{
+            return false;
+        }*/
+
+        if (kpg == null){
             return false;
         }
-
-        return true;
+        else {
+            return true;
+        }
     }
 
     // Se introduce un string con el tipo de encripatción y el fichero a encriptar y devuelve el hash del archivo
@@ -72,7 +85,7 @@ public class Utils {
     }
 
     // Generamos la key
-    public static KeyPair generateKey() throws NoSuchAlgorithmException {
+    public static KeyPair generateKeys() throws NoSuchAlgorithmException {
 
         kpg = KeyPairGenerator.getInstance("RSA");
         kpg.initialize(1024);
@@ -101,10 +114,32 @@ public class Utils {
         return fileToBytes;
     }
 
+    public static void guardarClaves(String PUBLIC_KEY_FILE, String PRIVATE_KEY_FILE, PrivateKey privateKey, PublicKey publicKey) throws IOException {
+
+        // Hacemos los outputStream con las rutas de cada clave
+        FileOutputStream publicFos = new FileOutputStream(PUBLIC_KEY_FILE);
+        FileOutputStream privateFos = new FileOutputStream(PRIVATE_KEY_FILE);
+
+        // Las pasamos a arrays de bytes
+        byte[] publicK = publicKey.getEncoded();
+        byte[] privateK = privateKey.getEncoded();
+
+        // Las escribimos
+        publicFos.write(publicK);
+        privateFos.write(privateK);
+
+        // Cerramos los buffers
+        publicFos.close();
+        privateFos.close();
+
+        System.out.println("Se han guardado los archivos");
+    }
+
+    /*
     public static byte[] extraerHash(File file, String algoritme) throws NoSuchAlgorithmException, IOException {
 
         MessageDigest messageDigest = MessageDigest.getInstance(algoritme);
         messageDigest.update(Files.readAllBytes(Paths.get(file.getAbsolutePath())));
         return messageDigest.digest();
-    }
+    }*/
 }
