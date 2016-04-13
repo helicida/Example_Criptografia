@@ -17,7 +17,6 @@ public class Controller {
     public static final String PRIVATE_KEY_FILE = "/home/46465442z/encriptar/private.txt";      // private.key
     public static final String PUBLIC_KEY_FILE = "/home/46465442z/encriptar/public.txt";        // public.key
 
-
     public static void main(String[] args) throws IOException, NoSuchAlgorithmException, ClassNotFoundException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchPaddingException {
 
         // Llaves
@@ -44,6 +43,10 @@ public class Controller {
         System.out.println("Longitud del fitxer: " + f.length());
         System.out.println("Longitud de la firma: " + encryptDigestionat.length);
         Utils.write(FITXER_SIGNAT, Utils.concatenateByteArrays(Utils.read(f), encryptDigestionat));
+
+        //---------------------------------------------//
+        //---------COMPARAMOS LOS DOS ARCHIVOS---------//
+        //---------------------------------------------//
 
         // Ahora comprobamos los dos archivos
         byte[] desencriptado = Utils.decrypt(encryptDigestionat, publicKey);    // Sacamos la key del archivo firmado
